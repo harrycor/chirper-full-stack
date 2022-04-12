@@ -16,20 +16,41 @@ router.get("/api/allblogs", async (req, res) => {
   }
 });
 //      all Authors
-router.get('/api/authors', async (req, res) =>{
-  try{
-    let authors = await db.Blog.allAuthors()
-    res.json(authors)
-  }catch(e){
-    console.log(e)
-    res.sendStatus(500)
+router.get("/api/authors", async (req, res) => {
+  try {
+    let authors = await db.Blog.allAuthors();
+    res.json(authors);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
   }
-})
+});
+//      all authors blogs with tags
+router.get("/api/blogs/authors/tags", async (req, res) => {
+  try {
+    let authors = await db.Blog.allBlogsAuthorsWithTags();
+    res.json(authors);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
 //      joined blogs with author
 router.get("/api/allblogsandauthors", async (req, res) => {
   try {
     let blogsAndAuthors = await db.Blog.allBlogsWithAuthors();
     res.json(blogsAndAuthors);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+//       check authors
+router.get("/api/check/authors/:name", async (req, res) => {
+  try {
+    let name = req.params.name;
+    let authorCheck = await db.Blog.checkAuthor(name);
+    res.json(authorCheck);
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
@@ -41,6 +62,26 @@ router.get("/api/singleblogandauthor/:id", async (req, res) => {
     let id = req.params.id;
     let singleBlogAndAuthor = await db.Blog.oneBlogWithAuthor(id);
     res.json(singleBlogAndAuthor);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+//      all Tags
+router.get("/api/alltags", async (req, res) => {
+  try {
+    let allTags = await db.Blog.allTags();
+    res.json(allTags);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+//      all BlogTags
+router.get("/api/allblogtags", async (req, res) => {
+  try {
+    let allBlogTags = await db.Blog.allBlogTags();
+    res.json(allBlogTags);
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
@@ -107,11 +148,6 @@ router.post("/api/post/author", async (req, res) => {
 });
 
 export default router;
-
-
-
-
-
 
 // router.get("/api/hello", (req, res, next) => {
 //   res.json("World");
