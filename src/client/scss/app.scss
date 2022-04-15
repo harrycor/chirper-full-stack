@@ -7,8 +7,8 @@ $warning: #945707;
 $danger: #d62518;
 $light: #f8f9fa;
 $dark: #343a40;
-$purple: #4b0082;
-$lightblue: #87cefa;
+$purps: #4b0082;
+$thesky: #87cefa;
 
 // Then add them to your custom theme-colors map, together with any additional colors you might need
 $theme-colors: (
@@ -20,8 +20,8 @@ $theme-colors: (
 	danger: $danger,
 	light: $light,
 	dark: $dark,
-	purple: $purple,
-	lightblue: $lightblue,
+	purps: $purps,
+	thesky: $thesky,
 	// add any additional color below
 );
 

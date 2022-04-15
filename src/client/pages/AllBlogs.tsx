@@ -8,7 +8,7 @@ const AllBlogs = () => {
   const [blogs, setBlogs] = useState<Array<IBlogsWithAuthors>>(null);
 
   let getAllBlogs = async () => {
-    await fetch("/api/allblogsandauthors")
+    await fetch("/api/blogs/authors/tags")
       .then((res) => res.json())
       .then((res) => setBlogs(res));
   };

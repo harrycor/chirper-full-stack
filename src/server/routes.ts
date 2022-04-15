@@ -1,4 +1,5 @@
 import * as express from "express";
+import { resolveModuleName } from "typescript";
 import db from "./db";
 
 const router = express.Router();
@@ -77,6 +78,17 @@ router.get("/api/alltags", async (req, res) => {
     res.sendStatus(500);
   }
 });
+//      one Tag
+router.get("/api/gettag/:tagname", async (req, res) => {
+  try {
+    let tagName: string = req.params.tagname;
+    let oneTag = await db.Blog.oneTag(tagName);
+    res.json(oneTag);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
 //      all BlogTags
 router.get("/api/allblogtags", async (req, res) => {
   try {
@@ -117,6 +129,19 @@ router.delete("/api/delete/blog/:id", async (req, res) => {
     res.sendStatus(500);
   }
 });
+//    delete BlogTag
+router.delete("/api/delete/blogtag/:blogid/:tagid", async (req, res) => {
+  try {
+    let blogIg: any = req.params.blogid;
+    let tagId: any = req.params.tagid;
+    let deletedBlogTag = await db.Blog.deleteBlogTag(blogIg, tagId);
+    console.log("deleted blogtag")
+    res.sendStatus(200)
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
 
 //                      POST
 //  posts to blog
@@ -125,9 +150,9 @@ router.post("/api/postblog", async (req, res) => {
     let title = req.body.title;
     let content = req.body.content;
     let authorid = req.body.authorid;
-    await db.Blog.postBlog(title, content, authorid);
-    console.log("added a new blog post");
-    res.sendStatus(200);
+    let newPost: any = await db.Blog.postBlog(title, content, authorid);
+    // console.log(newPost.insertId);
+    res.json(newPost.insertId);
   } catch (e) {
     console.log(e);
     res.sendStatus(500);
@@ -141,6 +166,32 @@ router.post("/api/post/author", async (req, res) => {
     await db.Blog.postAuthor(name, email);
     console.log(`Author, ${name}, added to db`);
     res.sendStatus(200);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+//    Post Tag
+router.post("/api/post/newtag/:name", async (req, res) => {
+  try {
+    let name = req.params.name;
+    let newTagPost: any = await db.Blog.postTag(name);
+    console.log("posted new tag", newTagPost.insertId);
+    res.json(newTagPost.insertId);
+  } catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+  }
+});
+//    post BlogTag
+router.post("/api/postblogtag/:blogid/:tagid", async (req, res) => {
+  try {
+    let blogID = req.params.blogid;
+    let tagID = req.params.tagid;
+    let blogTagPost = await db.Blog.postBlogTag(blogID, tagID);
+    console.log("BlogTag posted", blogTagPost);
+    res.sendStatus(200);
+    // res.json(blogTagPost);
   } catch (e) {
     console.log(e);
     res.sendStatus(500);

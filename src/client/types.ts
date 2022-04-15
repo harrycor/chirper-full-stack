@@ -12,11 +12,19 @@ export interface IBlogsWithAuthors {
   blogID: number;
   blogTitle: string;
   content: string;
+  tag: string | null;
+  tagID: number;
 }
 
 export interface IAuthors {
-  id: number,
-  name: string,
-  email: string,
-  _created: number
+  id: number;
+  name: string;
+  email: string;
+  _created: number;
+}
+
+export interface IAllTagsNames {
+  id: number;
+  name: string;
+  _created: number;
 }
